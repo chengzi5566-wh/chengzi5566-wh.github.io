@@ -67,6 +67,15 @@ export async function 加载更新日志() {
 }
 
 /**
+ * 加载下载列表
+ * @returns {Promise<Array>} 下载记录数组
+ */
+export async function 加载下载列表() {
+    const 数据 = await 加载JSON('./data/downloads.json');
+    return 数据.downloads || [];
+}
+
+/**
  * HTML 转义，防止 XSS
  * @param {string} 文本 - 原始文本
  * @returns {string} 转义后的文本

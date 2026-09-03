@@ -8,6 +8,7 @@ import { 渲染导航栏, 渲染页脚, 初始化回到顶部按钮, 初始化�
 import { 渲染首页, 渲染产品矩阵页, 渲染系统详情页 } from './render-systems.js';
 import { 渲染功能页 } from './render-features.js';
 import { 渲染更新日志页 } from './render-changelogs.js';
+import { 渲染下载页, 渲染系统下载卡片 } from './render-downloads.js';
 
 /**
  * 渲染关于页
@@ -94,7 +95,7 @@ function 绑定页面事件委托() {
     if (!页面容器) return;
 
     页面容器.addEventListener('click', (事件) => {
-        const 目标 = 事件.target.closest('.filter-btn, .changelog-filter-btn');
+        const 目标 = 事件.target.closest('.filter-btn, .changelog-filter-btn, .download-filter-btn');
         if (!目标) return;
 
         const 按钮元素 = 目标;
@@ -133,6 +134,36 @@ function 绑定页面事件委托() {
                     项.classList.add('hidden');
                 }
             });
+        } else if (按钮元素.classList.contains('download-filter-btn')) {
+            // 下载页筛选
+            document.querySelectorAll('.download-filter-btn').forEach(b => {
+                b.classList.remove('active', 'bg-primary', 'text-white');
+                b.classList.add('bg-white', 'text-gray-600');
+            });
+            按钮元素.classList.add('active', 'bg-primary', 'text-white');
+            按钮元素.classList.remove('bg-white', 'text-gray-600');
+
+            document.querySelectorAll('.download-item').forEach(项 => {
+                if (按钮系统ID === 'all' || 项.dataset.system === 按钮系统ID) {
+                    项.classList.remove('hidden');
+                } else {
+                    项.classList.add('hidden');
+                }
+            });
+
+            // 检查筛选后是否有可见项，控制分区标题显示（使用 data 属性精确选择器）
+            const 最新区 = document.querySelector('[data-section="latest"]');
+            const 历史区 = document.querySelector('[data-section="history"]');
+            if (最新区 && 最新区.querySelector('.download-item')) {
+                最新区.style.display = '';
+            } else if (最新区) {
+                最新区.style.display = 'none';
+            }
+            if (历史区 && 历史区.querySelector('.download-item')) {
+                历史区.style.display = '';
+            } else if (历史区) {
+                历史区.style.display = 'none';
+            }
         }
     });
 }
@@ -233,6 +264,9 @@ async function 路由渲染() {
                 break;
             case 'changelog':
                 HTML内容 = await 渲染更新日志页();
+                break;
+            case 'downloads':
+                HTML内容 = await 渲染下载页();
                 break;
             case 'about':
                 const 站点配置 = await 加载站点配置();

@@ -7,10 +7,11 @@
     { "label": "产品矩阵", "href": "#/products" },
     { "label": "功能一览", "href": "#/features" },
     { "label": "更新日志", "href": "#/changelog" },
+    { "label": "下载", "href": "#/downloads" },
     { "label": "关于", "href": "#/about" }
   ],
   "socialLinks": {
-    "GitHub": "https://github.com/chengzi5566",
+    "GitHub": "https://github.com/chengzi5566-wh",
     "Email": "mailto:chengzi5566@example.com"
   },
   "footerText": "© 2026 橙子的产品工坊. 保留所有权利.",

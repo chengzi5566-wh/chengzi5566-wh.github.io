@@ -1,0 +1,37 @@
+{
+  "downloads": [
+    
+    {
+      "id": "dl-s01-v100",
+      "systemId": "s01",
+      "version": "v1.0.0",
+      "fileName": "教师智能办公平台-v1.0.0.exe",
+      "fileSize": "80.1 MB",
+      "downloadType": "disk",
+      "downloadUrl": "https://github.com/chengzi5566-wh/chengzi5566-wh.github.io/releases/download/v1.0.0/V1.0.0.rar",
+      "extractCode": "abcd",
+      "releaseDate": "2026-08-15",
+      "systemRequirements": "Windows 10/11 (64位)，4GB内存以上",
+      "changeSummary": "首个正式版本发布",
+      "isLatest":true,
+      "md5": "",
+      "sha256": ""
+    },
+    {
+      "id": "dl-s02-v111",
+      "systemId": "s02",
+      "version": "v1.1.1",
+      "fileName": "智能办公协作平台-v1.1.1.exe",
+      "fileSize": "224 MB",
+      "downloadType": "github",
+      "downloadUrl": "https://github.com/chengzi5566-wh/chengzi5566-wh.github.io/releases/download/v1.1.1/v1.1.1.rar",
+      "extractCode": "",
+      "releaseDate": "2026-09-01",
+      "systemRequirements": "Windows 10/11 (64位)，8GB内存以上",
+      "changeSummary": "首个正式版本发布",
+      "isLatest":true ,
+      "md5": "",
+      "sha256": ""
+    }
+  ]
+}

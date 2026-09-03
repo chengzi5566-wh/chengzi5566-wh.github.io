@@ -5,6 +5,7 @@
 
 import { 加载站点配置, 加载系统列表, 加载功能列表, 加载更新日志, HTML转义, 格式化日期, 按系统筛选, 按排序排序, 按字段分组 } from './utils.js';
 import { 渲染系统卡片 } from './components.js';
+import { 渲染系统下载卡片 } from './render-downloads.js';
 
 /**
  * 渲染首页
@@ -177,10 +178,11 @@ export async function 渲染产品矩阵页() {
  * @returns {Promise<string>} 系统详情页 HTML
  */
 export async function 渲染系统详情页(系统ID) {
-    const [系统列表, 功能列表, 更新日志] = await Promise.all([
+    const [系统列表, 功能列表, 更新日志, 下载卡片HTML] = await Promise.all([
         加载系统列表(),
         加载功能列表(),
-        加载更新日志()
+        加载更新日志(),
+        渲染系统下载卡片(系统ID)
     ]);
 
     const 系统 = 系统列表.find(s => s.id === 系统ID);
@@ -355,5 +357,8 @@ export async function 渲染系统详情页(系统ID) {
                 ${日志HTML || '<p class="text-gray-400 text-center py-8">暂无版本日志</p>'}
             </div>
         </section>
+
+        <!-- 最新版本下载 -->
+        ${下载卡片HTML}
     `;
 }
