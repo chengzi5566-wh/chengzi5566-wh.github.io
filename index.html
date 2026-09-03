@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>橙子的产品工坊 - 用代码解决实际教学与办公问题</title>
+    <meta name="description" content="个人开发者打造的实用软件系统，聚焦 AI 教学办公与团队协作管理。包含教师智能办公平台和智能办公协作平台。">
+    <meta name="keywords" content="AI备课,教师办公,文件收集,团队协作,智能批改,教学动画">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%8A%3C/text%3E%3C/svg%3E">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#18181B',
+                        'primary-dark': '#0A0A0A',
+                        'primary-light': '#3F3F46',
+                        accent: '#F59E0B',
+                        'accent-dark': '#D97706',
+                        'accent-light': '#FBBF24'
+                    },
+                    fontFamily: {
+                        sans: ['"PingFang SC"', '"Microsoft YaHei"', '"Helvetica Neue"', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- 自定义样式 -->
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+    <!-- 导航栏 -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 transition-all duration-300"></nav>
+
+    <!-- 主内容区 -->
+    <main id="main-content" class="pt-16">
+        <!-- 动态页面渲染容器 -->
+        <div id="page-container"></div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer id="footer" class="hero-动态背景 text-gray-300 relative overflow-hidden"></footer>
+
+    <!-- 回到顶部按钮 -->
+    <button id="back-to-top" class="fixed bottom-6 right-6 w-12 h-12 bg-primary text-white rounded-full shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-primary-dark z-40">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- JavaScript 模块 -->
+    <script type="module" src="./js/utils.js"></script>
+    <script type="module" src="./js/components.js"></script>
+    <script type="module" src="./js/render-systems.js"></script>
+    <script type="module" src="./js/render-features.js"></script>
+    <script type="module" src="./js/render-changelogs.js"></script>
+    <script type="module" src="./js/main.js"></script>
+</body>
+</html>

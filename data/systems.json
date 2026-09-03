@@ -1,0 +1,106 @@
+{
+  "systems": [
+    {
+      "id": "s01",
+      "name": "教师智能办公平台",
+      "subtitle": "AI 赋能中小学教师全流程教学办公",
+      "tagline": "基于私有知识库与大模型的本地智能备课与教学管理系统",
+      "version": "v1.1.1",
+      "status": "活跃开发中",
+      "techStack": ["Python FastAPI", "原生 HTML/JS", "Tailwind CSS", "SQLite", "Chroma", "DeepSeek API"],
+      "tags": ["AI备课", "作业批改", "学生管理", "本地部署", "数据隐私"],
+      "icon": "fa-chalkboard-user",
+      "themeColor": "#3B82F6",
+      "description": "面向中小学教师的本地智能备课与教学管理工具。系统基于教师上传的课标、课本、教案等资料构建私有知识库，结合 DeepSeek 大模型，帮助教师快速生成个性化备课方案、课件、习题和学案，并提供作业 AI 批改、学生全生命周期管理、交互式教学动画生成等完整功能。所有数据本地存储，保护隐私安全。",
+      "keyMetrics": [
+        { "label": "功能模块", "value": "10+" },
+        { "label": "迭代版本", "value": "11" },
+        { "label": "AI模型", "value": "DeepSeek" }
+      ],
+      "useCases": [
+        "日常智能备课，一键生成教案/学案/习题/课件",
+        "AI 视觉批改学生作业，归档成长档案",
+        "班级与学生全生命周期管理，AI 生成学生画像与评语",
+        "生成交互式教学动画，课堂演示与分享",
+        "手机扫码上传作业图片，教师远程批改"
+      ],
+      "highlights": [
+        {
+          "icon": "fa-wand-magic-sparkles",
+          "title": "AI 智能备课",
+          "description": "6 层稳定性保障，RAG 检索优先引用教材资料，对话式修改内容防丢失"
+        },
+        {
+          "icon": "fa-camera-retro",
+          "title": "作业 AI 批改",
+          "description": "视觉模型逐题批改，支持订正重批，自动归档学生成长档案"
+        },
+        {
+          "icon": "fa-circle-play",
+          "title": "交互式教学动画",
+          "description": "AI 生成 HTML5 教学动画，12 类模板，对话式修改，备课自动引用"
+        },
+        {
+          "icon": "fa-database",
+          "title": "私有知识库",
+          "description": "上传课本/教案/图片建立向量索引，AI 生成内容贴合实际教学"
+        }
+      ],
+      "downloadUrl": "#",
+      "docUrl": "#",
+      "heroImage": "",
+      "screenshots": []
+    },
+    {
+      "id": "s02",
+      "name": "智能办公协作平台",
+      "subtitle": "面向管理人员的文件收集与团队协作中枢",
+      "tagline": "面向管理人员的轻量级文件收集、任务协作与智能分析平台",
+      "version": "v1.1.1",
+      "status": "活跃开发中",
+      "techStack": ["Flask", "Vue 3", "Element Plus", "SQLAlchemy", "DeepSeek API"],
+      "tags": ["文件收集", "任务协作", "报表分析", "智能搜索", "预约管理"],
+      "icon": "fa-users-gear",
+      "themeColor": "#10B981",
+      "description": "面向管理人员的轻量级办公协作平台，聚焦文件收集、任务协作与数据分析。支持批量文件收集与进度追踪、任务讨论协作与 AI 自动总结、报表数据 AI 智能分析、智能对话式文件搜索、会议室设备预约管理等功能，帮助管理人员高效完成日常行政工作。",
+      "keyMetrics": [
+        { "label": "功能模块", "value": "8+" },
+        { "label": "迭代版本", "value": "11" },
+        { "label": "AI分析", "value": "DeepSeek" }
+      ],
+      "useCases": [
+        "批量文件收集（作业/材料/表格），进度实时追踪，一键打包下载",
+        "任务协作讨论，AI 自动总结讨论要点，生成管理层汇报",
+        "报表数据 AI 智能分析，自动生成洞察报告与改进建议",
+        "对话式智能文件搜索，支持粘贴图片和文件让 AI 识别",
+        "会议室/设备预约管理，冲突自动检测，审批流程"
+      ],
+      "highlights": [
+        {
+          "icon": "fa-folder-tree",
+          "title": "智能文件收集",
+          "description": "多任务并行，进度实时统计，批量打包下载，软删除机制保障数据安全"
+        },
+        {
+          "icon": "fa-comments",
+          "title": "任务协作讨论",
+          "description": "Threaded 讨论，AI 自动总结已关闭主题，生成管理层汇报风格总结"
+        },
+        {
+          "icon": "fa-chart-pie",
+          "title": "报表 AI 分析",
+          "description": "DeepSeek 智能分析报表数据，数据概况、关键发现、针对性建议"
+        },
+        {
+          "icon": "fa-magnifying-glass",
+          "title": "智能文件搜索",
+          "description": "对话式搜索界面，支持多轮对话、图片粘贴识别、历史会话管理"
+        }
+      ],
+      "downloadUrl": "#",
+      "docUrl": "#",
+      "heroImage": "",
+      "screenshots": []
+    }
+  ]
+}

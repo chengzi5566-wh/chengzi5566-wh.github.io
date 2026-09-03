@@ -1,0 +1,45 @@
+{
+  "siteName": "橙子的产品工坊",
+  "siteSubtitle": "用代码解决实际教学与办公问题",
+  "author": "橙子",
+  "navItems": [
+    { "label": "首页", "href": "#/" },
+    { "label": "产品矩阵", "href": "#/products" },
+    { "label": "功能一览", "href": "#/features" },
+    { "label": "更新日志", "href": "#/changelog" },
+    { "label": "关于", "href": "#/about" }
+  ],
+  "socialLinks": {
+    "GitHub": "https://github.com/chengzi5566",
+    "Email": "mailto:chengzi5566@example.com"
+  },
+  "footerText": "© 2026 橙子的产品工坊. 保留所有权利.",
+  "hero": {
+    "title": "用代码解决实际教学与办公问题",
+    "subtitle": "个人开发者打造的实用软件系统，聚焦 AI 教学办公与团队协作管理",
+    "ctaPrimary": { "text": "浏览产品矩阵", "href": "#/products" },
+    "ctaSecondary": { "text": "查看更新日志", "href": "#/changelog" }
+  },
+  "advantages": [
+    {
+      "icon": "fa-bolt",
+      "title": "AI 驱动",
+      "description": "深度集成 DeepSeek 大模型，智能备课、作业批改、数据分析，让 AI 真正解决实际问题"
+    },
+    {
+      "icon": "fa-shield-halved",
+      "title": "数据安全",
+      "description": "系统一支持完全本地部署，所有数据存储在本机，无需担心隐私泄露"
+    },
+    {
+      "icon": "fa-arrows-rotate",
+      "title": "持续进化",
+      "description": "基于教师反馈持续优化教学风格，系统越用越懂你，功能持续迭代更新"
+    },
+    {
+      "icon": "fa-mobile-screen-button",
+      "title": "多端访问",
+      "description": "支持浏览器访问、局域网共享、手机扫码上传，随时随地高效办公"
+    }
+  ]
+}

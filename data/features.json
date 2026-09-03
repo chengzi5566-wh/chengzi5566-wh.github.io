@@ -1,0 +1,284 @@
+{
+  "features": [
+    {
+      "id": "f001",
+      "systemId": "s01",
+      "systemName": "教师智能办公平台",
+      "group": "AI 智能备课",
+      "name": "智能备课生成",
+      "description": "基于私有知识库与 DeepSeek 大模型，一键生成包含教学目标、重难点、教学过程、板书、作业、反思的完整备课方案",
+      "highlights": [
+        "流式生成，实时显示 AI 思考过程",
+        "RAG 检索，优先引用教师上传的课标/课本/教案",
+        "6 层稳定性保障，长思考模型兼容",
+        "对话式修改，未修改内容自动保留"
+      ],
+      "icon": "fa-wand-magic-sparkles",
+      "isHighlight": true,
+      "sort": 1
+    },
+    {
+      "id": "f002",
+      "systemId": "s01",
+      "systemName": "教师智能办公平台",
+      "group": "AI 智能备课",
+      "name": "一课多产",
+      "description": "一次备课可同时生成教案、学案、习题、PPT 课件",
+      "highlights": ["教案自动配套学案", "多难度习题生成", "PPT 课件一键导出"],
+      "icon": "fa-layer-group",
+      "isHighlight": false,
+      "sort": 2
+    },
+    {
+      "id": "f003",
+      "systemId": "s01",
+      "systemName": "教师智能办公平台",
+      "group": "AI 智能备课",
+      "name": "对话式修改",
+      "description": "基于历史备课方案继续优化，支持自然语言指令修改，内容防丢失合并",
+      "highlights": ["深度递归合并兜底", "习题题号级匹配", "学案嵌套结构识别"],
+      "icon": "fa-comments",
+      "isHighlight": false,
+      "sort": 3
+    },
+    {
+      "id": "f004",
+      "systemId": "s01",
+      "systemName": "教师智能办公平台",
+      "group": "学生管理",
+      "name": "班级与学生管理",
+      "description": "班级创建、学生信息管理、跨学期复制、批量导入",
+      "highlights": ["Excel 批量导入", "跨学期复制", "学生照片管理"],
+      "icon": "fa-users",
+      "isHighlight": false,
+      "sort": 1
+    },
+    {
+      "id": "f005",
+      "systemId": "s01",
+      "systemName": "教师智能办公平台",
+      "group": "学生管理",
+      "name": "成绩管理与分析",
+      "description": "考试成绩录入、统计分析、分布图、趋势图、学科对比",
+      "highlights": ["自动排名与及格率", "成绩分布环形图", "重点关注学生标记"],
+      "icon": "fa-chart-column",
+      "isHighlight": false,
+      "sort": 2
+    },
+    {
+      "id": "f006",
+      "systemId": "s01",
+      "systemName": "教师智能办公平台",
+      "group": "学生管理",
+      "name": "AI 学生画像与评价",
+      "description": "基于成绩、成长记录生成 AI 学生画像与综合评语",
+      "highlights": ["多学期画像对比", "期末评语自动生成", "因材施教建议"],
+      "icon": "fa-user-graduate",
+      "isHighlight": false,
+      "sort": 3
+    },
+    {
+      "id": "f007",
+      "systemId": "s01",
+      "systemName": "教师智能办公平台",
+      "group": "作业批改",
+      "name": "AI 视觉批改",
+      "description": "调用 DeepSeek 视觉模型批改学生作业图片，逐题判定对错",
+      "highlights": [
+        "多图压缩上传",
+        "标准答案自动解析",
+        "无答案模式支持",
+        "批量批改并发控制"
+      ],
+      "icon": "fa-camera-retro",
+      "isHighlight": true,
+      "sort": 1
+    },
+    {
+      "id": "f008",
+      "systemId": "s01",
+      "systemName": "教师智能办公平台",
+      "group": "作业批改",
+      "name": "订正与成长档案",
+      "description": "支持订正重批形成多轮记录链，批改结果归档到学生成长档案",
+      "highlights": [
+        "订正记录链追踪",
+        "进步对比分析",
+        "作业痕迹查看器（SVG 对错圈）",
+        "成长记录自动生成"
+      ],
+      "icon": "fa-file-lines",
+      "isHighlight": false,
+      "sort": 2
+    },
+    {
+      "id": "f009",
+      "systemId": "s01",
+      "systemName": "教师智能办公平台",
+      "group": "作业批改",
+      "name": "手机扫码上传",
+      "description": "电脑端生成二维码，手机免登录拍照上传作业图片，AI 自动识别姓名",
+      "highlights": ["令牌鉴权 2 小时有效", "AI 姓名识别匹配", "局域网自动探测"],
+      "icon": "fa-qrcode",
+      "isHighlight": false,
+      "sort": 3
+    },
+    {
+      "id": "f010",
+      "systemId": "s01",
+      "systemName": "教师智能办公平台",
+      "group": "资源管理",
+      "name": "资料中心与知识库",
+      "description": "上传教案/课件/习题/图片建立私有知识库，AI 生成内容优先引用",
+      "highlights": [
+        "图片 AI 识别解析",
+        "多文件批量上传",
+        "单文件独立重建索引",
+        "向量检索精准匹配"
+      ],
+      "icon": "fa-book-open",
+      "isHighlight": false,
+      "sort": 1
+    },
+    {
+      "id": "f011",
+      "systemId": "s01",
+      "systemName": "教师智能办公平台",
+      "group": "资源管理",
+      "name": "动画库",
+      "description": "AI 生成 HTML5 交互教学动画，12 类模板，对话式修改，备课自动引用",
+      "highlights": [
+        "12 类学科模板",
+        "版本链管理与回滚",
+        "独立分享播放页",
+        "备课/课件自动引用"
+      ],
+      "icon": "fa-circle-play",
+      "isHighlight": true,
+      "sort": 2
+    },
+    {
+      "id": "f012",
+      "systemId": "s01",
+      "systemName": "教师智能办公平台",
+      "group": "办公辅助",
+      "name": "仪表盘与日程",
+      "description": "今日课程、日程提醒、工作统计一站式汇总",
+      "highlights": ["课表管理", "日程重复规则", "工作日志与周报"],
+      "icon": "fa-calendar-days",
+      "isHighlight": false,
+      "sort": 1
+    },
+    {
+      "id": "f013",
+      "systemId": "s02",
+      "systemName": "智能办公协作平台",
+      "group": "文件收集",
+      "name": "智能文件收集任务",
+      "description": "创建文件收集任务，参与者上传文件，管理员实时查看进度、批量下载、退回文件",
+      "highlights": [
+        "多任务并行，进度实时统计",
+        "批量打包下载",
+        "文件退回与重新上传",
+        "软删除机制，被退回用户仍可下载历史文件"
+      ],
+      "icon": "fa-folder-tree",
+      "isHighlight": true,
+      "sort": 1
+    },
+    {
+      "id": "f014",
+      "systemId": "s02",
+      "systemName": "智能办公协作平台",
+      "group": "文件收集",
+      "name": "收集任务关联协作",
+      "description": "收集任务可关联任务协作讨论主题，方便查看和跳转相关讨论",
+      "highlights": ["关联讨论主题", "最新留言展示", "双向跳转"],
+      "icon": "fa-link",
+      "isHighlight": false,
+      "sort": 2
+    },
+    {
+      "id": "f015",
+      "systemId": "s02",
+      "systemName": "智能办公协作平台",
+      "group": "任务协作",
+      "name": "讨论主题与留言",
+      "description": "创建讨论主题，Threaded 留言回复，支持通知提醒",
+      "highlights": ["回复嵌套讨论", "实时通知", "附件上传"],
+      "icon": "fa-comments",
+      "isHighlight": false,
+      "sort": 1
+    },
+    {
+      "id": "f016",
+      "systemId": "s02",
+      "systemName": "智能办公协作平台",
+      "group": "任务协作",
+      "name": "AI 讨论总结",
+      "description": "已关闭的讨论主题可生成 AI 总结，提炼核心要点与关键节点",
+      "highlights": ["管理层汇报风格", "自动要点提炼", "参与度统计"],
+      "icon": "fa-robot",
+      "isHighlight": true,
+      "sort": 2
+    },
+    {
+      "id": "f017",
+      "systemId": "s02",
+      "systemName": "智能办公协作平台",
+      "group": "数据分析",
+      "name": "报表 AI 智能分析",
+      "description": "对报表数据进行智能问答式分析，自动生成数据概况、关键发现、针对性建议",
+      "highlights": [
+        "DeepSeek 流式分析",
+        "表格/表单自动识别",
+        "AI 分析报告管理",
+        "API 调用限制检查"
+      ],
+      "icon": "fa-chart-pie",
+      "isHighlight": true,
+      "sort": 1
+    },
+    {
+      "id": "f018",
+      "systemId": "s02",
+      "systemName": "智能办公协作平台",
+      "group": "智能搜索",
+      "name": "对话式文件搜索",
+      "description": "对话式搜索界面，支持多轮对话、历史会话管理、图片粘贴识别",
+      "highlights": [
+        "多轮对话搜索",
+        "对话历史分类管理",
+        "支持粘贴图片和文件",
+        "自动保存会话"
+      ],
+      "icon": "fa-magnifying-glass",
+      "isHighlight": false,
+      "sort": 1
+    },
+    {
+      "id": "f019",
+      "systemId": "s02",
+      "systemName": "智能办公协作平台",
+      "group": "资源预约",
+      "name": "会议室与设备预约",
+      "description": "会议室、设备等资源的预约管理，冲突自动检测，审批流程",
+      "highlights": ["日历视图", "冲突自动检测", "审批流程", "通知提醒"],
+      "icon": "fa-calendar-check",
+      "isHighlight": false,
+      "sort": 1
+    },
+    {
+      "id": "f020",
+      "systemId": "s02",
+      "systemName": "智能办公协作平台",
+      "group": "工作管理",
+      "name": "上交管理",
+      "description": "文件/数据上交任务统一管理，状态跟踪，催办提醒，统计报表导出",
+      "highlights": ["待上交/已上交/已逾期", "自动催办提醒", "统计报表导出", "任务留言交流"],
+      "icon": "fa-file-arrow-up",
+      "isHighlight": false,
+      "sort": 1
+    }
+  ]
+}

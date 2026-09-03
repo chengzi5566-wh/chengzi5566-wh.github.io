@@ -1,0 +1,168 @@
+/**
+ * 自定义样式
+ * Tailwind CSS 为主，此处补充自定义样式
+ */
+
+/* CSS 变量定义 - 现代黑色主题 */
+:root {
+    --primary: #18181B;
+    --primary-dark: #0A0A0A;
+    --primary-light: #3F3F46;
+    --accent: #F59E0B;
+    --accent-dark: #D97706;
+    --accent-light: #FBBF24;
+}
+
+/* 全局样式 */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 导航链接高亮 */
+.nav-link.active {
+    color: var(--primary);
+}
+
+/* 系统卡片悬停效果增强 */
+.system-card:hover .fa-arrow-right {
+    transform: translateX(4px);
+}
+
+/* 文本截断 */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* 动画 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#page-container > section {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* ===== Hero 动态流动渐变背景 ===== */
+@keyframes 流动渐变 {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.hero-动态背景 {
+    background: linear-gradient(-45deg, #0A0A0A, #18181B, #1a1a2e, #0f0f1a, #0A0A0A);
+    background-size: 400% 400%;
+    animation: 流动渐变 15s ease infinite;
+}
+
+/* ===== 鼠标跟随光晕 ===== */
+.鼠标光晕 {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, rgba(59, 130, 246, 0.08) 40%, transparent 70%);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+    filter: blur(40px);
+}
+
+/* ===== 标题微光呼吸 ===== */
+@keyframes 微光呼吸 {
+    0%, 100% { filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.2)); }
+    50% { filter: drop-shadow(0 0 40px rgba(245, 158, 11, 0.4)); }
+}
+
+.标题微光 {
+    animation: 微光呼吸 4s ease-in-out infinite;
+}
+
+/* ===== 光晕缓慢漂浮 ===== */
+@keyframes 光晕漂浮1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(30px, -20px) scale(1.1); }
+}
+
+@keyframes 光晕漂浮2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-25px, 25px) scale(0.95); }
+}
+
+@keyframes 光晕漂浮3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(20px, 20px) scale(1.05); }
+}
+
+.光晕漂浮1 { animation: 光晕漂浮1 8s ease-in-out infinite; }
+.光晕漂浮2 { animation: 光晕漂浮2 10s ease-in-out infinite; }
+.光晕漂浮3 { animation: 光晕漂浮3 12s ease-in-out infinite; }
+
+/* ===== 网格背景纹理 ===== */
+.网格纹理 {
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+
+/* 加载动画 */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* 筛选按钮激活状态（JS 动态切换） */
+.filter-btn.active,
+.changelog-filter-btn.active {
+    background-color: var(--primary) !important;
+    color: white !important;
+}
