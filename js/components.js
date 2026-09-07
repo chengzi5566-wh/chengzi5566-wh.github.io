@@ -76,15 +76,16 @@ export function 渲染导航栏(站点配置) {
     导航元素.innerHTML = `
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
-                <!-- Logo -->
-                <a href="#/" class="flex items-center gap-2 text-lg font-bold text-gray-800 hover:text-primary transition-colors">
-                    <img src="./logo.png" alt="${HTML转义(站点配置.siteName)}" class="w-9 h-9 rounded-lg object-contain">
-                    <span>${HTML转义(站点配置.siteName)}</span>
-                </a>
-
-                <!-- 桌面导航 -->
-                <div class="hidden md:flex items-center gap-1">
-                    ${导航项HTML}
+                <!-- Logo + 桌面导航（靠左对齐） -->
+                <div class="flex items-center gap-6">
+                    <a href="#/" class="flex items-center gap-2 text-lg font-bold text-gray-800 hover:text-primary transition-colors">
+                        <img src="./logo.png" alt="${HTML转义(站点配置.siteName)}" class="w-9 h-9 rounded-lg object-contain">
+                        <span>${HTML转义(站点配置.siteName)}</span>
+                    </a>
+                    <!-- 桌面导航 -->
+                    <div class="hidden md:flex items-center gap-1">
+                        ${导航项HTML}
+                    </div>
                 </div>
 
                 <!-- 社交链接 + 移动端菜单按钮 -->
