@@ -211,7 +211,7 @@
 
 ```json
 {
-  "siteName": "橙子的产品工坊",
+  "siteName": "橙智科技",
   "siteSubtitle": "用代码解决实际教学与办公问题",
   "author": "橙子",
   "navItems": [
@@ -225,7 +225,7 @@
     "GitHub": "https://github.com/你的用户名",
     "Email": "mailto:你的邮箱@example.com"
   },
-  "footerText": "© 2026 橙子的产品工坊. 保留所有权利."
+  "footerText": "© 2026 橙智科技. 保留所有权利."
 }
 ```
 

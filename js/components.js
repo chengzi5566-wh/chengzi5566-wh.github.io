@@ -6,6 +6,51 @@
 import { 加载站点配置, HTML转义 } from './utils.js';
 
 /**
+ * 根据社交链接名称获取 Font Awesome 图标类
+ * @param {string} 名称 - 社交链接名称
+ * @returns {string} 图标类名
+ */
+function 获取社交图标(名称) {
+    if (名称 === 'GitHub') return 'fa-github';
+    if (名称 === '微信公众号') return 'fa-weixin';
+    return 'fa-envelope';
+}
+
+/**
+ * 显示简易 toast 提示
+ * @param {string} 消息 - 提示消息
+ */
+function 显示复制提示(消息) {
+    const 提示 = document.createElement('div');
+    提示.textContent = 消息;
+    提示.className = 'fixed top-20 left-1/2 -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg text-sm z-50 transition-opacity duration-300';
+    document.body.appendChild(提示);
+    setTimeout(() => {
+        提示.style.opacity = '0';
+        setTimeout(() => 提示.remove(), 300);
+    }, 2000);
+}
+
+/**
+ * 绑定微信公众号链接的点击复制事件
+ * @param {HTMLElement} 容器 - 包含社交链接的容器元素
+ */
+export function 绑定微信复制事件(容器) {
+    if (!容器) return;
+    容器.addEventListener('click', (事件) => {
+        const 微信链接 = 事件.target.closest('[data-wechat-id]');
+        if (!微信链接) return;
+        事件.preventDefault();
+        const 公众号ID = 微信链接.dataset.wechatId;
+        navigator.clipboard.writeText(公众号ID).then(() => {
+            显示复制提示('已复制微信公众号：' + 公众号ID);
+        }).catch(() => {
+            显示复制提示('微信公众号：' + 公众号ID + '（请手动复制）');
+        });
+    });
+}
+
+/**
  * 渲染导航栏
  * @param {Object} 站点配置 - 站点配置数据
  */
@@ -19,8 +64,13 @@ export function 渲染导航栏(站点配置) {
 
     const 社交链接 = 站点配置.socialLinks || {};
     const 社交HTML = Object.entries(社交链接).map(([名称, 链接]) => {
-        const 图标类 = 名称 === 'GitHub' ? 'fa-github' : 'fa-envelope';
-        return `<a href="${HTML转义(链接)}" target="_blank" class="text-gray-500 hover:text-primary transition-colors" title="${HTML转义(名称)}"><i class="fa-brands ${图标类}"></i></a>`;
+        const 图标类 = 获取社交图标(名称);
+        const 是否微信 = 名称 === '微信公众号';
+        const 链接地址 = 是否微信 ? 'javascript:void(0)' : HTML转义(链接);
+        const 额外属性 = 是否微信 ? `data-wechat-id="${HTML转义(链接)}"` : '';
+        const 打开方式 = 是否微信 ? '' : 'target="_blank"';
+        const 提示文本 = 是否微信 ? `${HTML转义(名称)}：${HTML转义(链接)}（点击复制）` : HTML转义(名称);
+        return `<a href="${链接地址}" ${打开方式} ${额外属性} class="text-gray-500 hover:text-primary transition-colors" title="${提示文本}"><i class="fa-brands ${图标类}"></i></a>`;
     }).join('');
 
     导航元素.innerHTML = `
@@ -28,7 +78,7 @@ export function 渲染导航栏(站点配置) {
             <div class="flex items-center justify-between h-16">
                 <!-- Logo -->
                 <a href="#/" class="flex items-center gap-2 text-lg font-bold text-gray-800 hover:text-primary transition-colors">
-                    <span class="text-2xl">🍊</span>
+                    <img src="./logo.png" alt="${HTML转义(站点配置.siteName)}" class="w-9 h-9 rounded-lg object-contain">
                     <span>${HTML转义(站点配置.siteName)}</span>
                 </a>
 
@@ -67,6 +117,9 @@ export function 渲染导航栏(站点配置) {
             移动菜单.classList.toggle('hidden');
         });
     }
+
+    // 绑定微信公众号点击复制事件
+    绑定微信复制事件(导航元素);
 }
 
 /**
@@ -79,8 +132,13 @@ export function 渲染页脚(站点配置) {
 
     const 社交链接 = 站点配置.socialLinks || {};
     const 社交HTML = Object.entries(社交链接).map(([名称, 链接]) => {
-        const 图标类 = 名称 === 'GitHub' ? 'fa-github' : 'fa-envelope';
-        return `<a href="${HTML转义(链接)}" target="_blank" class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-amber-500/20 hover:border-amber-400/30 hover:text-amber-400 transition-all" title="${HTML转义(名称)}"><i class="fa-brands ${图标类}"></i></a>`;
+        const 图标类 = 获取社交图标(名称);
+        const 是否微信 = 名称 === '微信公众号';
+        const 链接地址 = 是否微信 ? 'javascript:void(0)' : HTML转义(链接);
+        const 额外属性 = 是否微信 ? `data-wechat-id="${HTML转义(链接)}"` : '';
+        const 打开方式 = 是否微信 ? '' : 'target="_blank"';
+        const 提示文本 = 是否微信 ? `${HTML转义(名称)}：${HTML转义(链接)}（点击复制）` : HTML转义(名称);
+        return `<a href="${链接地址}" ${打开方式} ${额外属性} class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-amber-500/20 hover:border-amber-400/30 hover:text-amber-400 transition-all" title="${提示文本}"><i class="fa-brands ${图标类}"></i></a>`;
     }).join('');
 
     页脚元素.innerHTML = `
@@ -94,7 +152,7 @@ export function 渲染页脚(站点配置) {
                 <!-- 品牌区 -->
                 <div>
                     <div class="flex items-center gap-2 text-lg font-bold text-white mb-3">
-                        <span class="text-2xl">🍊</span>
+                        <img src="./logo.png" alt="${HTML转义(站点配置.siteName)}" class="w-9 h-9 rounded-lg object-contain">
                         <span>${HTML转义(站点配置.siteName)}</span>
                     </div>
                     <p class="text-gray-400 text-sm">${HTML转义(站点配置.siteSubtitle)}</p>
@@ -124,6 +182,9 @@ export function 渲染页脚(站点配置) {
             </div>
         </div>
     `;
+
+    // 绑定微信公众号点击复制事件
+    绑定微信复制事件(页脚元素);
 }
 
 /**

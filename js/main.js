@@ -3,8 +3,8 @@
  * 负责应用初始化、路由调度、页面渲染
  */
 
-import { 加载站点配置, 获取当前路由, 滚动到顶部 } from './utils.js';
-import { 渲染导航栏, 渲染页脚, 初始化回到顶部按钮, 初始化导航栏效果 } from './components.js';
+import { 加载站点配置, 获取当前路由, 滚动到顶部, HTML转义 } from './utils.js';
+import { 渲染导航栏, 渲染页脚, 初始化回到顶部按钮, 初始化导航栏效果, 绑定微信复制事件 } from './components.js';
 import { 渲染首页, 渲染产品矩阵页, 渲染系统详情页 } from './render-systems.js';
 import { 渲染功能页 } from './render-features.js';
 import { 渲染更新日志页 } from './render-changelogs.js';
@@ -25,9 +25,7 @@ function 渲染关于页(站点配置) {
 
             <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 mb-6">
                 <div class="flex items-center gap-4 mb-6">
-                    <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center text-3xl">
-                        🍊
-                    </div>
+                    <img src="./logo.png" alt="Logo" class="w-16 h-16 rounded-lg object-contain">
                     <div>
                         <h2 class="text-xl font-bold text-gray-800">${站点配置.author}</h2>
                         <p class="text-gray-500 text-sm">独立开发者</p>
@@ -56,11 +54,16 @@ function 渲染关于页(站点配置) {
                 <h3 class="text-lg font-bold text-gray-800 mb-4">联系方式</h3>
                 <div class="flex flex-wrap gap-4">
                     ${Object.entries(站点配置.socialLinks || {}).map(([名称, 链接]) => {
-                        const 图标类 = 名称 === 'GitHub' ? 'fa-github' : 'fa-envelope';
+                        const 图标类 = 名称 === 'GitHub' ? 'fa-github' : 名称 === '微信公众号' ? 'fa-weixin' : 'fa-envelope';
+                        const 是否微信 = 名称 === '微信公众号';
+                        const 链接地址 = 是否微信 ? 'javascript:void(0)' : HTML转义(链接);
+                        const 额外属性 = 是否微信 ? `data-wechat-id="${HTML转义(链接)}" title="点击复制微信公众号"` : '';
+                        const 打开方式 = 是否微信 ? '' : 'target="_blank"';
+                        const 显示名称 = 是否微信 ? `${HTML转义(名称)}：${HTML转义(链接)}` : HTML转义(名称);
                         return `
-                            <a href="${链接}" target="_blank" class="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg hover:bg-amber-50 transition-colors text-gray-600 hover:text-amber-600">
+                            <a href="${链接地址}" ${打开方式} ${额外属性} class="flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg hover:bg-amber-50 transition-colors text-gray-600 hover:text-amber-600">
                                 <i class="fa-brands ${图标类}"></i>
-                                <span>${名称}</span>
+                                <span>${显示名称}</span>
                             </a>
                         `;
                     }).join('')}
@@ -93,6 +96,9 @@ function 渲染404页() {
 function 绑定页面事件委托() {
     const 页面容器 = document.getElementById('page-container');
     if (!页面容器) return;
+
+    // 绑定微信公众号点击复制事件（覆盖关于页等动态渲染内容）
+    绑定微信复制事件(页面容器);
 
     页面容器.addEventListener('click', (事件) => {
         const 目标 = 事件.target.closest('.filter-btn, .changelog-filter-btn, .download-filter-btn');
