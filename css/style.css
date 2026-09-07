@@ -166,3 +166,16 @@ body {
     background-color: var(--primary) !important;
     color: white !important;
 }
+
+/* ===== 下载次数 +1 弹跳动画 ===== */
+@keyframes 次数弹跳 {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.4); color: #F59E0B; }
+    60% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+.download-count-num.animate-pop {
+    animation: 次数弹跳 0.5s ease-out;
+    display: inline-block;
+}

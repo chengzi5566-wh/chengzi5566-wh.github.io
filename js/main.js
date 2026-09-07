@@ -9,6 +9,7 @@ import { 渲染首页, 渲染产品矩阵页, 渲染系统详情页, 初始化�
 import { 渲染功能页 } from './render-features.js';
 import { 渲染更新日志页 } from './render-changelogs.js';
 import { 渲染下载页, 渲染系统下载卡片 } from './render-downloads.js';
+import { 初始化下载交互 } from './download-stats.js';
 
 /**
  * 渲染关于页
@@ -287,6 +288,9 @@ async function 路由渲染() {
 
         // DOM 渲染后初始化轮播组件（延迟一帧确保元素就绪）
         requestAnimationFrame(() => 初始化轮播());
+
+        // 初始化下载交互（事件委托，全局只需绑定一次）
+        初始化下载交互();
 
         // 初始化 Hero 区鼠标交互效果（首页 + 系统详情页）
         if (路由.路径 === 'home') {

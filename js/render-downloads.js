@@ -4,6 +4,7 @@
  */
 
 import { 加载下载列表, 加载系统列表, HTML转义, 格式化日期 } from './utils.js';
+import { 获取下载统计, 获取显示次数, 获取系统总次数 } from './download-stats.js';
 
 /**
  * 渲染单个下载卡片
@@ -12,11 +13,18 @@ import { 加载下载列表, 加载系统列表, HTML转义, 格式化日期 } f
  * @param {boolean} 是否最新 - 是否为最新版本
  * @returns {string} 卡片 HTML
  */
-function 渲染下载卡片(下载记录, 系统列表, 是否最新 = false) {
+function 渲染下载卡片(下载记录, 系统列表, 是否最新 = false, 统计映射 = null) {
     const 系统 = 系统列表.find(s => s.id === 下载记录.systemId);
     const 主题色 = 系统?.themeColor || '#18181B';
     const 下载类型标签 = 下载记录.downloadType === 'github' ? 'GitHub Releases' : '网盘下载';
     const 下载类型图标 = 下载记录.downloadType === 'github' ? 'fa-download' : 'fa-cloud-arrow-down';
+
+    // 下载次数（API失败时不显示）
+    const 下载次数 = 获取显示次数(统计映射, 下载记录);
+    const 下载次数HTML = 下载次数 !== null ? `
+                    <span class="flex items-center gap-1.5 download-count" data-download-id="${HTML转义(下载记录.id)}">
+                        <i class="fa-solid fa-download text-gray-400"></i><span class="download-count-num font-medium">${下载次数}</span> 次
+                    </span>` : '';
 
     // 校验码区域（可选）
     const 校验码HTML = (下载记录.md5 || 下载记录.sha256) ? `
@@ -63,6 +71,7 @@ function 渲染下载卡片(下载记录, 系统列表, 是否最新 = false) {
                     <span class="flex items-center gap-1.5">
                         <i class="fa-solid fa-desktop text-gray-400"></i>${HTML转义(下载记录.systemRequirements)}
                     </span>
+                    ${下载次数HTML}
                 </div>
 
                 <div class="bg-gray-50 rounded-lg p-3 mb-4">
@@ -71,7 +80,8 @@ function 渲染下载卡片(下载记录, 系统列表, 是否最新 = false) {
 
                 <div class="flex flex-wrap gap-3">
                     <a href="${HTML转义(下载记录.downloadUrl)}" target="_blank" rel="noopener"
-                       class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-semibold rounded-lg hover:from-amber-500 hover:to-amber-700 transition-all shadow-lg shadow-amber-500/25 hover:scale-105">
+                       data-download-id="${HTML转义(下载记录.id)}" data-system-id="${HTML转义(下载记录.systemId)}"
+                       class="download-link inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-semibold rounded-lg hover:from-amber-500 hover:to-amber-700 transition-all shadow-lg shadow-amber-500/25 hover:scale-105">
                         <i class="fa-solid ${下载类型图标}"></i>立即下载
                     </a>
                     ${下载记录.downloadType === 'disk' && 下载记录.extractCode ? `
@@ -104,6 +114,7 @@ function 渲染下载卡片(下载记录, 系统列表, 是否最新 = false) {
                             <span>${HTML转义(系统?.name || '')}</span>
                             <span>·</span>
                             <span>${格式化日期(下载记录.releaseDate)}</span>
+                            ${下载次数 !== null ? `<span>·</span><span class="download-count" data-download-id="${HTML转义(下载记录.id)}"><i class="fa-solid fa-download mr-1"></i><span class="download-count-num font-medium text-gray-500">${下载次数}</span> 次</span>` : ''}
                         </div>
                     </div>
                 </div>
@@ -111,7 +122,8 @@ function 渲染下载卡片(下载记录, 系统列表, 是否最新 = false) {
                     <span class="text-xs text-gray-400 hidden md:inline">${HTML转义(下载记录.systemRequirements)}</span>
                     ${下载记录.extractCode ? `<span class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">码: ${HTML转义(下载记录.extractCode)}</span>` : ''}
                     <a href="${HTML转义(下载记录.downloadUrl)}" target="_blank" rel="noopener"
-                       class="inline-flex items-center gap-1.5 px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-amber-500 hover:text-white transition-colors">
+                       data-download-id="${HTML转义(下载记录.id)}" data-system-id="${HTML转义(下载记录.systemId)}"
+                       class="download-link inline-flex items-center gap-1.5 px-4 py-2 bg-gray-100 text-gray-700 text-sm font-medium rounded-lg hover:bg-amber-500 hover:text-white transition-colors">
                         <i class="fa-solid ${下载类型图标}"></i>下载
                     </a>
                 </div>
@@ -125,9 +137,10 @@ function 渲染下载卡片(下载记录, 系统列表, 是否最新 = false) {
  * @returns {Promise<string>} 下载页 HTML
  */
 export async function 渲染下载页() {
-    const [下载列表, 系统列表] = await Promise.all([
+    const [下载列表, 系统列表, 统计映射] = await Promise.all([
         加载下载列表(),
-        加载系统列表()
+        加载系统列表(),
+        获取下载统计()
     ]);
 
     // 按日期倒序
@@ -147,6 +160,25 @@ export async function 渲染下载页() {
         `)
     ].join('');
 
+    // 系统汇总统计区（API失败时不显示）
+    const 汇总统计HTML = 统计映射 ? `
+        <div class="grid grid-cols-2 gap-4 mb-8">
+            ${系统列表.map(系统 => {
+                const 总次数 = 获取系统总次数(统计映射, 下载列表, 系统.id);
+                return 总次数 !== null ? `
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center text-white flex-shrink-0" style="background:${系统.themeColor}">
+                        <i class="fa-solid ${HTML转义(系统.icon)} text-sm"></i>
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-xs text-gray-400 truncate">${HTML转义(系统.name)}</p>
+                        <p class="text-lg font-bold text-gray-800"><i class="fa-solid fa-download text-xs text-amber-500 mr-1"></i><span class="download-count-num" data-system-id="${HTML转义(系统.id)}">${总次数}</span> 次</p>
+                    </div>
+                </div>` : '';
+            }).join('')}
+        </div>
+    ` : '';
+
     // 渲染最新版本区域
     const 最新HTML = 最新版本列表.length ? `
         <div class="mb-10" data-section="latest">
@@ -154,7 +186,7 @@ export async function 渲染下载页() {
                 <i class="fa-solid fa-star text-amber-500"></i>最新版本
             </h2>
             <div class="space-y-6">
-                ${最新版本列表.map(d => 渲染下载卡片(d, 系统列表, true)).join('')}
+                ${最新版本列表.map(d => 渲染下载卡片(d, 系统列表, true, 统计映射)).join('')}
             </div>
         </div>
     ` : '';
@@ -166,7 +198,7 @@ export async function 渲染下载页() {
                 <i class="fa-solid fa-clock-rotate-left text-gray-400"></i>历史版本
             </h2>
             <div class="space-y-3">
-                ${历史版本列表.map(d => 渲染下载卡片(d, 系统列表, false)).join('')}
+                ${历史版本列表.map(d => 渲染下载卡片(d, 系统列表, false, 统计映射)).join('')}
             </div>
         </div>
     ` : '';
@@ -177,6 +209,9 @@ export async function 渲染下载页() {
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">下载中心</h1>
                 <p class="text-gray-500">获取最新版本的软件安装包</p>
             </div>
+
+            <!-- 系统汇总统计 -->
+            ${汇总统计HTML}
 
             <!-- 筛选按钮 -->
             <div class="flex flex-wrap gap-2 mb-8">
@@ -199,9 +234,10 @@ export async function 渲染下载页() {
  * @returns {Promise<string>} 下载卡片 HTML（无下载记录时返回空字符串）
  */
 export async function 渲染系统下载卡片(系统ID) {
-    const [下载列表, 系统列表] = await Promise.all([
+    const [下载列表, 系统列表, 统计映射] = await Promise.all([
         加载下载列表(),
-        加载系统列表()
+        加载系统列表(),
+        获取下载统计()
     ]);
 
     // 找到该系统的最新版本
@@ -212,6 +248,11 @@ export async function 渲染系统下载卡片(系统ID) {
 
     const 系统 = 系统列表.find(s => s.id === 系统ID);
     const 主题色 = 系统?.themeColor || '#18181B';
+    const 下载次数 = 获取显示次数(统计映射, 最新版本);
+    const 下载次数HTML = 下载次数 !== null ? `
+                            <span class="flex items-center gap-1 text-sm text-gray-500 download-count" data-download-id="${HTML转义(最新版本.id)}">
+                                <i class="fa-solid fa-download"></i><span class="download-count-num font-medium">${下载次数}</span> 次下载
+                            </span>` : '';
     const 下载类型图标 = 最新版本.downloadType === 'github' ? 'fa-download' : 'fa-cloud-arrow-down';
 
     return `
@@ -235,9 +276,11 @@ export async function 渲染系统下载卡片(系统ID) {
                         </div>
                     </div>
                     <div class="flex items-center gap-3">
+                        ${下载次数HTML}
                         ${最新版本.extractCode ? `<span class="text-sm bg-gray-100 px-3 py-2 rounded-lg text-gray-600">提取码: <code class="font-mono font-bold">${HTML转义(最新版本.extractCode)}</code></span>` : ''}
                         <a href="${HTML转义(最新版本.downloadUrl)}" target="_blank" rel="noopener"
-                           class="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-semibold rounded-lg hover:from-amber-500 hover:to-amber-700 transition-all shadow-lg shadow-amber-500/25 hover:scale-105">
+                           data-download-id="${HTML转义(最新版本.id)}" data-system-id="${HTML转义(最新版本.systemId)}"
+                           class="download-link inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-semibold rounded-lg hover:from-amber-500 hover:to-amber-700 transition-all shadow-lg shadow-amber-500/25 hover:scale-105">
                             <i class="fa-solid ${下载类型图标}"></i>立即下载
                         </a>
                     </div>
