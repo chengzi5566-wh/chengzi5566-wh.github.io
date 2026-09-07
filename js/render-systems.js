@@ -22,6 +22,16 @@ export async function 渲染首页() {
 
     const 系统卡片HTML = 系统列表.map(系统 => 渲染系统卡片(系统)).join('');
 
+    // Hero 主图（空值降级：无图时不渲染图片列）
+    const Hero主图路径 = (站点配置.hero && 站点配置.hero.heroImage) ? 站点配置.hero.heroImage.trim() : '';
+    const Hero主图HTML = Hero主图路径 ? `
+                <div class="hidden md:flex justify-center lg:justify-end">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-gradient-to-r from-amber-500/20 to-blue-500/20 rounded-2xl blur-2xl"></div>
+                        <img src="./${HTML转义(Hero主图路径)}" alt="${HTML转义(站点配置.hero.title)}" class="relative w-full max-w-lg rounded-2xl shadow-2xl border border-white/10" onerror="this.style.display='none'">
+                    </div>
+                </div>` : '';
+
     const 优势HTML = (站点配置.advantages || []).map((优势, 索引) => {
         const 渐变列表 = [
             'bg-gradient-to-br from-amber-400 to-amber-600 text-white',
@@ -72,21 +82,24 @@ export async function 渲染首页() {
             <!-- 鼠标跟随光晕 -->
             <div id="鼠标光晕" class="鼠标光晕 opacity-0"></div>
             <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
-                <div class="max-w-3xl">
-                    <h1 class="标题微光 text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 bg-gradient-to-r from-white via-gray-100 to-amber-300 bg-clip-text text-transparent">
-                        ${HTML转义(站点配置.hero.title)}
-                    </h1>
-                    <p class="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
-                        ${HTML转义(站点配置.hero.subtitle)}
-                    </p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="${HTML转义(站点配置.hero.ctaPrimary.href)}" class="px-6 py-3 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-semibold rounded-lg hover:from-amber-500 hover:to-amber-700 transition-all shadow-lg shadow-amber-500/25 hover:scale-105">
-                            <i class="fa-solid fa-rocket mr-2"></i>${HTML转义(站点配置.hero.ctaPrimary.text)}
-                        </a>
-                        <a href="${HTML转义(站点配置.hero.ctaSecondary.href)}" class="px-6 py-3 bg-white/10 text-white font-semibold rounded-lg hover:bg-white/20 transition-all backdrop-blur-sm border border-white/20 hover:scale-105">
-                            ${HTML转义(站点配置.hero.ctaSecondary.text)}<i class="fa-solid fa-arrow-right ml-2"></i>
-                        </a>
+                <div class="grid ${Hero主图路径 ? 'lg:grid-cols-2 gap-12 items-center' : ''}">
+                    <div class="max-w-3xl ${Hero主图路径 ? '' : 'mx-auto text-center'}">
+                        <h1 class="标题微光 text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 bg-gradient-to-r from-white via-gray-100 to-amber-300 bg-clip-text text-transparent">
+                            ${HTML转义(站点配置.hero.title)}
+                        </h1>
+                        <p class="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
+                            ${HTML转义(站点配置.hero.subtitle)}
+                        </p>
+                        <div class="flex flex-wrap gap-4 ${Hero主图路径 ? '' : 'justify-center'}">
+                            <a href="${HTML转义(站点配置.hero.ctaPrimary.href)}" class="px-6 py-3 bg-gradient-to-r from-amber-400 to-amber-600 text-black font-semibold rounded-lg hover:from-amber-500 hover:to-amber-700 transition-all shadow-lg shadow-amber-500/25 hover:scale-105">
+                                <i class="fa-solid fa-rocket mr-2"></i>${HTML转义(站点配置.hero.ctaPrimary.text)}
+                            </a>
+                            <a href="${HTML转义(站点配置.hero.ctaSecondary.href)}" class="px-6 py-3 bg-white/10 text-white font-semibold rounded-lg hover:bg-white/20 transition-all backdrop-blur-sm border border-white/20 hover:scale-105">
+                                ${HTML转义(站点配置.hero.ctaSecondary.text)}<i class="fa-solid fa-arrow-right ml-2"></i>
+                            </a>
+                        </div>
                     </div>
+                    ${Hero主图HTML}
                 </div>
             </div>
         </section>
@@ -262,6 +275,35 @@ export async function 渲染系统详情页(系统ID) {
         `;
     }).join('');
 
+    // 渲染系统截图轮播（空数组降级：无截图不渲染）
+    const 截图列表 = (系统.screenshots || []).filter(路径 => 路径.trim());
+    const 轮播HTML = 截图列表.length > 0 ? `
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">系统截图</h2>
+            <div class="system-carousel relative rounded-2xl overflow-hidden bg-gray-100 shadow-sm border border-gray-100" data-carousel>
+                <div class="carousel-track flex transition-transform duration-500 ease-out">
+                    ${截图列表.map((路径, 索引) => `
+                        <div class="carousel-slide w-full flex-shrink-0">
+                            <img src="./${HTML转义(路径.trim())}" alt="${HTML转义(系统.name)} 截图 ${索引 + 1}" class="w-full h-auto" onerror="this.parentElement.style.display='none'">
+                        </div>
+                    `).join('')}
+                </div>
+                ${截图列表.length > 1 ? `
+                <button class="carousel-prev absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-lg flex items-center justify-center text-gray-700 hover:bg-white transition-colors" aria-label="上一张">
+                    <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button class="carousel-next absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-lg flex items-center justify-center text-gray-700 hover:bg-white transition-colors" aria-label="下一张">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+                <div class="carousel-indicators absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                    ${截图列表.map((_, 索引) => `
+                        <button class="carousel-dot w-2.5 h-2.5 rounded-full transition-all ${索引 === 0 ? 'bg-white w-6' : 'bg-white/50'}" data-index="${索引}" aria-label="第${索引 + 1}张"></button>
+                    `).join('')}
+                </div>
+                ` : ''}
+            </div>
+        </section>` : '';
+
     // 渲染版本日志时间轴
     const 日志HTML = 系统日志.map(日志 => `
         <div class="relative pl-8 pb-8 border-l-2 border-gray-200 last:pb-0">
@@ -340,6 +382,8 @@ export async function 渲染系统详情页(系统ID) {
             </div>
         </section>
 
+        ${轮播HTML}
+
         <!-- 功能模块 -->
         <section class="bg-gray-50 py-12 md:py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -361,4 +405,75 @@ export async function 渲染系统详情页(系统ID) {
         <!-- 最新版本下载 -->
         ${下载卡片HTML}
     `;
+}
+
+/**
+ * 初始化系统截图轮播组件
+ * 处理左右切换、指示点、自动播放（悬停暂停）
+ * 注意：需在 DOM 渲染后调用
+ */
+export function 初始化轮播() {
+    const 轮播列表 = document.querySelectorAll('.system-carousel');
+    轮播列表.forEach(轮播 => {
+        const 轨道 = 轮播.querySelector('.carousel-track');
+        const 上一张按钮 = 轮播.querySelector('.carousel-prev');
+        const 下一张按钮 = 轮播.querySelector('.carousel-next');
+        const 指示点容器 = 轮播.querySelector('.carousel-indicators');
+        if (!轨道) return;
+
+        const 获取可见slide = () => Array.from(轨道.querySelectorAll('.carousel-slide')).filter(slide => slide.style.display !== 'none');
+        let 当前索引 = 0;
+        let 定时器ID = null;
+
+        const 切换到 = (索引) => {
+            const 可见slide = 获取可见slide();
+            if (可见slide.length === 0) return;
+            当前索引 = (索引 + 可见slide.length) % 可见slide.length;
+            轨道.style.transform = `translateX(-${当前索引 * 100}%)`;
+            // 更新指示点
+            const 指示点 = 指示点容器 ? 指示点容器.querySelectorAll('.carousel-dot') : [];
+            指示点.forEach((点, i) => {
+                if (i === 当前索引) {
+                    点.classList.add('bg-white', 'w-6');
+                    点.classList.remove('bg-white/50');
+                } else {
+                    点.classList.remove('bg-white', 'w-6');
+                    点.classList.add('bg-white/50');
+                }
+            });
+        };
+
+        const 开始自动播放 = () => {
+            停止自动播放();
+            const 可见slide = 获取可见slide();
+            if (可见slide.length <= 1) return;
+            定时器ID = setInterval(() => 切换到(当前索引 + 1), 5000);
+        };
+
+        const 停止自动播放 = () => {
+            if (定时器ID) {
+                clearInterval(定时器ID);
+                定时器ID = null;
+            }
+        };
+
+        // 绑定按钮事件
+        if (上一张按钮) 上一张按钮.addEventListener('click', () => { 切换到(当前索引 - 1); 开始自动播放(); });
+        if (下一张按钮) 下一张按钮.addEventListener('click', () => { 切换到(当前索引 + 1); 开始自动播放(); });
+
+        // 绑定指示点事件
+        if (指示点容器) {
+            指示点容器.querySelectorAll('.carousel-dot').forEach(点 => {
+                点.addEventListener('click', () => { 切换到(parseInt(点.dataset.index)); 开始自动播放(); });
+            });
+        }
+
+        // 鼠标悬停暂停
+        轮播.addEventListener('mouseenter', 停止自动播放);
+        轮播.addEventListener('mouseleave', 开始自动播放);
+
+        // 初始化
+        切换到(0);
+        开始自动播放();
+    });
 }

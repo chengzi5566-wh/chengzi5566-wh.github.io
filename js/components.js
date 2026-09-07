@@ -197,9 +197,22 @@ export function 渲染系统卡片(系统) {
         `<span class="px-2 py-0.5 text-xs rounded-full" style="background:${系统.themeColor}15;color:${系统.themeColor}">${HTML转义(标签)}</span>`
     ).join('');
 
+    // 卡片顶部截图（空值降级：无图时显示主题色渐变占位）
+    const 主图路径 = (系统.heroImage || '').trim();
+    const 卡片图片HTML = 主图路径 ? `
+                <div class="relative h-48 overflow-hidden bg-gray-100">
+                    <img src="./${HTML转义(主图路径)}" alt="${HTML转义(系统.name)} 截图" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.parentElement.style.display='none'">
+                </div>` : `
+                <div class="relative h-48 overflow-hidden" style="background:linear-gradient(135deg, ${系统.themeColor}20, ${系统.themeColor}05)">
+                    <div class="absolute inset-0 flex items-center justify-center opacity-25">
+                        <i class="fa-solid ${HTML转义(系统.icon)} text-6xl" style="color:${系统.themeColor}"></i>
+                    </div>
+                </div>`;
+
     return `
         <a href="#/system/${HTML转义(系统.id)}" class="system-card group block bg-white rounded-2xl shadow-sm hover:shadow-xl hover:shadow-amber-500/10 border border-gray-100 hover:border-amber-400/50 overflow-hidden transition-all duration-300 hover:-translate-y-1">
             <div class="h-2" style="background:${系统.themeColor}"></div>
+            ${卡片图片HTML}
             <div class="p-6">
                 <div class="flex items-start justify-between mb-4">
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center text-white text-xl" style="background:${系统.themeColor}">

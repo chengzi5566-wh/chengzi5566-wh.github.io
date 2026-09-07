@@ -20,7 +20,8 @@
     "title": "用代码解决实际教学与办公问题",
     "subtitle": "个人开发者打造的实用软件系统，聚焦 AI 教学办公与团队协作管理",
     "ctaPrimary": { "text": "浏览产品矩阵", "href": "#/products" },
-    "ctaSecondary": { "text": "查看更新日志", "href": "#/changelog" }
+    "ctaSecondary": { "text": "查看更新日志", "href": "#/changelog" },
+    "heroImage": "assets/images/screenshots/s01-hero.png"
   },
   "advantages": [
     {

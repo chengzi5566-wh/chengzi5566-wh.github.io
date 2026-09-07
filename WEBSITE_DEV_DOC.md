@@ -261,7 +261,11 @@
       ],
       "downloadUrl": "#",
       "docUrl": "#",
-      "heroImage": "screenshots/s01-hero.png"
+      "heroImage": "assets/images/screenshots/s01-hero.png",
+      "screenshots": [
+        "assets/images/screenshots/s01-01.png",
+        "assets/images/screenshots/s01-02.png"
+      ]
     },
     {
       "id": "s02",

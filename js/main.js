@@ -5,7 +5,7 @@
 
 import { 加载站点配置, 获取当前路由, 滚动到顶部, HTML转义 } from './utils.js';
 import { 渲染导航栏, 渲染页脚, 初始化回到顶部按钮, 初始化导航栏效果, 绑定微信复制事件 } from './components.js';
-import { 渲染首页, 渲染产品矩阵页, 渲染系统详情页 } from './render-systems.js';
+import { 渲染首页, 渲染产品矩阵页, 渲染系统详情页, 初始化轮播 } from './render-systems.js';
 import { 渲染功能页 } from './render-features.js';
 import { 渲染更新日志页 } from './render-changelogs.js';
 import { 渲染下载页, 渲染系统下载卡片 } from './render-downloads.js';
@@ -284,6 +284,9 @@ async function 路由渲染() {
 
         页面容器.innerHTML = HTML内容;
         滚动到顶部();
+
+        // DOM 渲染后初始化轮播组件（延迟一帧确保元素就绪）
+        requestAnimationFrame(() => 初始化轮播());
 
         // 初始化 Hero 区鼠标交互效果（首页 + 系统详情页）
         if (路由.路径 === 'home') {
