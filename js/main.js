@@ -10,6 +10,7 @@ import { 渲染功能页 } from './render-features.js';
 import { 渲染更新日志页 } from './render-changelogs.js';
 import { 渲染下载页, 渲染系统下载卡片 } from './render-downloads.js';
 import { 初始化下载交互 } from './download-stats.js';
+import { 初始化浏览次数 } from './view-stats.js?v=3';
 
 /**
  * 渲染关于页
@@ -322,6 +323,9 @@ async function 初始化应用() {
         // 渲染导航栏和页脚
         渲染导航栏(站点配置);
         渲染页脚(站点配置);
+
+        // 异步初始化浏览次数（不阻塞页面渲染）
+        requestAnimationFrame(() => 初始化浏览次数());
 
         // 初始化交互效果
         初始化回到顶部按钮();

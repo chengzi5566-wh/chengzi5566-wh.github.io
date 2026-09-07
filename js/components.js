@@ -180,6 +180,7 @@ export function 渲染页脚(站点配置) {
 
             <div class="border-t border-white/10 pt-6 text-center text-gray-500 text-sm">
                 ${HTML转义(站点配置.footerText)}
+                <span id="site-views" class="hidden ml-2"></span>
             </div>
         </div>
     `;
